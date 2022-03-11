@@ -1,0 +1,4 @@
+.DS_Store
+/playwright-js/samconfig.toml
+/playwright-js/events/
+/playwright-js/playwright/yarn.lock
