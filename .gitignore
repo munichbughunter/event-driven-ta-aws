@@ -2,5 +2,5 @@
 /playwright-js/samconfig.toml
 /playwright-js/events/
 /playwright-js/playwright/yarn.lock
-/playwright/samconfig.toml
-/playwright/playwright/yarn.lock
+/playwright/playwright/playwright/yarn.lock
+/playwright/playwright/samconfig.toml
