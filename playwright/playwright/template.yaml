@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  playwright-js
+  Sample SAM Template for playwright-js
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 10240
+
+Resources:
+  PlaywrightFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Environment:
+        Variables: 
+          BROWSERS: chromium
+          HEADLESS: true
+          PLAYWRIGHT_BROWSERS_PATH: /playwright/ms-playwright/
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      PackageType: Image
+      Events:
+        Playwright:
+          Type: Api
+          Properties:
+            Path: /test
+            Method: get
+    Metadata:
+      DockerTag: playwright-plain
+      DockerContext: ./
+      Dockerfile: Dockerfile
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  PlaywrightApi:
+    Description: "API Gateway endpoint URL for Prod stage for Playwright function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/test/"
+  PlaywrightFunction:
+    Description: "Playwright Lambda Function ARN"
+    Value: !GetAtt PlaywrightFunction.Arn
+  PlaywrightFunctionIamRole:
+    Description: "Implicit IAM Role created for Playwright function"
+    Value: !GetAtt PlaywrightFunctionRole.Arn
